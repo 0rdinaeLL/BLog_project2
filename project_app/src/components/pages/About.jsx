@@ -11,7 +11,7 @@ function About() {
         <article className="article-container">
           <div className="article-header">
             <div className="article-authorRef">by Leo Santos</div>
-            <div className="article-date">Tue Oct 30 2025</div>
+            <div className="article-date">Fri Nov 21 2025</div>
 
 
           

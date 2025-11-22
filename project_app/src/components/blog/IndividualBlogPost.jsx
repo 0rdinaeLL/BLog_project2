@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 import CommentForm from "./CommentForm";
@@ -13,7 +14,7 @@ function IndividualBlogPost() {
   const [author, setAuthor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [fetchedComments, setFetchedComments] = useState([]);
-
+  const { isAuthenticated } = useContext(AuthContext);
   
   console.log(id, post, comments,author);
 
@@ -27,7 +28,7 @@ function IndividualBlogPost() {
       setAuthor(authorRes.data);
 
       const commentsRes = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`);
-      setFetchedComments(commentsRes.data);
+      setFetchedComments(commentsRes.data.map(c => ({ ...c, likes: 0 })));
 
       setLoading(false);
     } catch (e) {
@@ -43,6 +44,12 @@ function IndividualBlogPost() {
    const addComment = async (name, text) => {
   if (!name || !text) return;
 
+    const newComment = {
+      id: Date.now(),
+      name,
+      text,
+      likes: 0,};
+
   try {
     const res = await axios.post(`https://jsonplaceholder.typicode.com/posts/${id}/comments`, {
       postId: id,
@@ -56,6 +63,24 @@ function IndividualBlogPost() {
     console.error("Failed to post comment:", e);
   }
 };
+  
+     const handleLike = (id) => {
+    setComments(prevComments =>
+      prevComments.map(comment =>
+        comment.id === id
+          ? { ...comment, likes: comment.likes + 1 }
+          : comment
+      )
+    );
+
+      setComments(prev =>
+    prev.map(comment =>
+      comment.id === id
+        ? { ...comment, likes: comment.likes + 1 }
+        : comment
+     )
+    );
+  };
 
   return (
     <div className="app-wrapper">
@@ -74,22 +99,13 @@ function IndividualBlogPost() {
         ) : (
           <p>Post not found.</p>
         )}
-
-        <CommentForm onSubmit={addComment} />
-        <div className="comment-area">
-          {comments.length === 0 ? null
-          : (
-            comments.map((comment) => (
-              <div key={comment.id} className="comment">
-                <strong>{comment.name}</strong>
-                <p>{comment.text}</p>
-                <button className="like-btn" onClick={() => handleLike(comment.id)}>
-                  👍 ({comment.likes})
-                </button>
-              </div>
-            ))
-          )}
-
+         
+          {/*Only show comment form if logged in */}
+        {isAuthenticated ? (
+         <CommentForm onSubmit={addComment} />
+        ) : (
+          <p className="login-message">Please <a href="/login">login</a> to comment.</p>
+        )}
           
         <div className="fetched-comments">
        <h3>Comments</h3>
@@ -103,8 +119,6 @@ function IndividualBlogPost() {
           </div>
              ))
           )}
-        </div>
-
         </div>
       </main>
       <Footer />

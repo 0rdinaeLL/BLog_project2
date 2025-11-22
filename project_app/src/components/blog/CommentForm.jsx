@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState, useContext  } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function CommentForm({ onSubmit }) {
-  const [name, setName] = useState("");
-  const [text, setText] = useState("");
+    const [text, setText] = useState("");
+ /* const [name, setName] = useState("");*/
+  const { user } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !text) return;
-    onSubmit(name, text);
-    setName("");
+    if (!text) return;
+    onSubmit(user.username, text);
     setText("");
   };
 
@@ -17,13 +18,7 @@ function CommentForm({ onSubmit }) {
       <h3>Add a Comment!</h3>
       <input
         type="text"
-        placeholder="Your name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
-      <textarea
-        placeholder="Your comment"
+        placeholder="Your Comment"
         value={text}
         onChange={(e) => setText(e.target.value)}
         required

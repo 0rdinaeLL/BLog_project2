@@ -131,7 +131,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
-  padding: 0;
+  padding: 10px;
   margin: 10px 0;
   background-color: #e2ac60;
 }
@@ -146,6 +146,30 @@ body {
 .navbar li a:hover {
   color: #f6d55c;
 }
+
+.auth-info{
+  padding:10px ;
+    justify-content: center;
+     margin: 10px 0;
+  align-self: flex-end;
+  background-color: rgb(224, 169, 105);
+}
+
+/*Login link call to action*/
+.navbar .login-link {
+  display: inline-block;
+  color: #007bff;
+  font-weight: bold;
+  position: relative;
+  will-change: transform, color;
+  animation: bounce 0.8s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
 
 /* form   */
 
@@ -313,7 +337,8 @@ body.dark a {
 }
 
 body.dark .accent-btn,
-body.dark .theme-toggle {
+body.dark .theme-toggle,
+body.dark .auth-info {
   background-color: #333;
   color: #f5f5f5;
 }
@@ -325,7 +350,8 @@ body.light .theme-toggle {
 }
 
 
-body.dark .theme-toggle {
+body.dark .theme-toggle, 
+body.dark.auth-info {
   background-color: #444;
   color: #f5f5f5;
 }
@@ -336,6 +362,15 @@ body.dark .theme-toggle {
   margin: 0 auto;
   padding: 2rem 1rem;
 }
+
+.fetched-posts{
+  margin-bottom: 10rem;
+}
+
+.login-message{
+  font-style: italic;
+}
+
 
 .fetched-comments,
 .comment-area {

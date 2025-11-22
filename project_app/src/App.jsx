@@ -5,7 +5,7 @@ import About from "./components/pages/About";
 import IndividualBlogPost from "./components/blog/IndividualBlogPost";
 import ContactPage from "./components/pages/ContactPage";
 import "./App.css";
-
+import Login from "./components/pages/login/Login";
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
       <Route path="/posts" element={<BlogPosts />} />
       <Route path="/about" element={<About />} />
       <Route path="/post/:id" element={<IndividualBlogPost />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/contact" element={<ContactPage />} />
     </Routes>
   );
